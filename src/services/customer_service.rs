@@ -1,8 +1,9 @@
 use std::error::Error;
 
-use crate::models::customer::{Customer, NewCustomer};
+use crate::{models::customer::{Customer, NewCustomer}, repository::{customer_repository::CustomerRepository, repository_trait::Repository}};
 
 pub struct CustomerService {
+    repository: dyn Repository<Customer>
 }
 
 impl CustomerService {
@@ -19,13 +20,18 @@ impl CustomerService {
 mod tests {
     use chrono::NaiveDate;
 
-    use crate::models::customer::NewCustomer;
+    use crate::{models::customer::NewCustomer, repository::repository_trait::MockRepository};
 
     use super::*;
 
     #[test]
     fn test_create_customer() {
+        let repo_mock = MockRepository::<Customer>::new();
+        repo_mock.expect_create()
+            .times(1);
+
         let service = CustomerService {
+            repository: CustomerRepository {  }
         };
         let customer = NewCustomer {
             birthdate: NaiveDate::from_ymd_opt(1998, 10, 30).expect("date should be valid"),

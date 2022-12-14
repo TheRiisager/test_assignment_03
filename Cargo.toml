@@ -9,3 +9,4 @@ edition = "2021"
 diesel = { version = "2.0.2", features = ["postgres", "chrono"] }
 dotenvy = "0.15"
 chrono = "0.4.23"
+mockall = "0.11.3"
